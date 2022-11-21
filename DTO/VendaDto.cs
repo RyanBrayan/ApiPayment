@@ -7,8 +7,8 @@ namespace projectFinal.DTO
 {
     public class VendaDto
     {
-        public int idVendedor{ get; set; }
-        public int idProduto { get; set; }
+        public int? idVendedor{ get; set; }
+        public int? idProduto { get; set; }
         
     }
 }

@@ -40,6 +40,14 @@ namespace projectFinal.Controllers
             return Ok(vendedorBanco);
         }
 
+        
+        [HttpGet("ListarVendedores")]
+        public IActionResult ListarVendedor(){
+            var vendedors = _context.Vendedors;
+            return Ok(vendedors);
+        }
+
+
 
     }
 }

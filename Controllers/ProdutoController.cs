@@ -25,6 +25,12 @@ namespace projectFinal.Controllers
             return Ok(produto);
         }
 
+        [HttpGet("ListarProdutos")]
+        public IActionResult ListarProdutos(){
+            var produtos = _context.Produtos;
+            return Ok(produtos);
+        }
+
 
 
 

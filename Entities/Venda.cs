@@ -18,10 +18,10 @@ namespace projectFinal.Entities
         [Key]
         public int IdVenda { get; set; }
         [ForeignKey("Vendedor")]
-        public int IdVendedor { get; set; }
+        public int? IdVendedor { get; set; }
         [ForeignKey("Produto")]
          public string NomeVendedor{ get; set; }
-        public int idProduto { get; set; }
+        public int? idProduto { get; set; }
         [ForeignKey("Status")]
         public string NomeProduto{ get; set; }
         public Status Status{ get; set; }

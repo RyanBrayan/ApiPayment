@@ -25,12 +25,16 @@ namespace projectFinal.Controllers
         [HttpPost]
         public IActionResult Criar(VendaDto vendaDto){
             
+            if(vendaDto.idProduto == null) throw new ArgumentNullException("Campo IdProduto não podem ser nulo.");
+            if(vendaDto.idVendedor == null) throw new ArgumentNullException("Campo IdVendedor não podem ser nulo.");
+            
             var dadosVendedor = _context.Vendedors.Find(vendaDto.idVendedor);
             var dadosProduto = _context.Produtos.Find(vendaDto.idProduto);
-            
-            Venda venda = new Venda();
+            if (dadosProduto == null && dadosVendedor == null) return NotFound("IdProduto e IdVendedor não encontrados!");
+            if(dadosVendedor == null) return NotFound("IdVendedor não encontrado!");
+            if(dadosProduto == null) return NotFound("IdProduto não encontrado!");
 
-            if(dadosVendedor == null || dadosProduto == null) throw new ArgumentNullException("Campos não podem ser nulos.");
+            Venda venda = new Venda();
             
             venda.IdVendedor = vendaDto.idVendedor;
             venda.idProduto = vendaDto.idProduto;
@@ -43,7 +47,7 @@ namespace projectFinal.Controllers
         }
 
 
-        [HttpPut("{id}")]
+        [HttpPut("Atualizar_Status{id}")]
         public IActionResult Editar(int id, Status status){
             var vendaBanco = _context.Vendas.Find(id);
 
@@ -81,7 +85,7 @@ namespace projectFinal.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("Buscar_Por{id}")]
         public IActionResult BuscarPorID(int id){
             var vendaBanco = _context.Vendas.Find(id);
 
