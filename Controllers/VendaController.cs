@@ -16,7 +16,6 @@ namespace projectFinal.Controllers
     {
         private readonly EccomerceContext _context;
 
-
         public VendaController(EccomerceContext context){
             _context = context;
         }
@@ -25,23 +24,25 @@ namespace projectFinal.Controllers
         [HttpPost]
         public IActionResult Criar(VendaDto vendaDto){
             
-            if(vendaDto.idProduto == null) throw new ArgumentNullException("Campo IdProduto não podem ser nulo.");
-            if(vendaDto.idVendedor == null) throw new ArgumentNullException("Campo IdVendedor não podem ser nulo.");
+            // if(vendaDto.IdVendedor == null) throw new ArgumentNullException("Campo IdVendedor não podem ser nulo.");
+            // if(dadosVendedor == null) return NotFound("IdVendedor não encontrado!");
             
-            var dadosVendedor = _context.Vendedors.Find(vendaDto.idVendedor);
-            var dadosProduto = _context.Produtos.Find(vendaDto.idProduto);
-            if (dadosProduto == null && dadosVendedor == null) return NotFound("IdProduto e IdVendedor não encontrados!");
-            if(dadosVendedor == null) return NotFound("IdVendedor não encontrado!");
-            if(dadosProduto == null) return NotFound("IdProduto não encontrado!");
-
-            Venda venda = new Venda();
+            var dadosVendedor = _context.Vendedors.Find(vendaDto.IdVendedor);
             
-            venda.IdVendedor = vendaDto.idVendedor;
-            venda.idProduto = vendaDto.idProduto;
+            var venda = new Venda();
+            
+            venda.IdVendedor = vendaDto.IdVendedor;
             venda.NomeVendedor = dadosVendedor.Nome;
-            venda.NomeProduto = dadosProduto.NomeProduto;
+            venda.ProdutosDto = new List<ProdutoDto>();
+            foreach (var item in vendaDto.ProdutoDto)
+            {
+                ProdutoDto produtoDto = new ProdutoDto();
+                produtoDto.IdProduto = item.IdProduto;
+                produtoDto.Quantidade = item.Quantidade;
+                venda.Adicionar(produtoDto);
+            }
 
-            _context.Add(venda);
+            _context.Add(venda); 
             _context.SaveChanges();
             return Ok(venda);
         }

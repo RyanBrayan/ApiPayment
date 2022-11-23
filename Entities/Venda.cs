@@ -21,11 +21,15 @@ namespace projectFinal.Entities
         public int? IdVendedor { get; set; }
         [ForeignKey("Produto")]
          public string NomeVendedor{ get; set; }
-        public int? idProduto { get; set; }
-        [ForeignKey("Status")]
+        public List<ProdutoDto> ProdutosDto { get; set; }
         public string NomeProduto{ get; set; }
+        [ForeignKey("Status")]
         public Status Status{ get; set; }
         public DateTime DataVenda { get; set; }
+        public void Adicionar(ProdutoDto produto){
+            ProdutosDto.Add(produto);
+        }
     }
+
     
 }

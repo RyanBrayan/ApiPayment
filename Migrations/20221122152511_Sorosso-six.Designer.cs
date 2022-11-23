@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221122152511_Sorosso-six")]
+    partial class Sorossosix
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,16 +25,28 @@ namespace projectFinal.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ProdutoDtoVendaDto", b =>
+                {
+                    b.Property<int>("ProdutoDtoIdProduto")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VendaDtosIdVendedor")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProdutoDtoIdProduto", "VendaDtosIdVendedor");
+
+                    b.HasIndex("VendaDtosIdVendedor");
+
+                    b.ToTable("ProdutoDtoVendaDto");
+                });
+
             modelBuilder.Entity("projectFinal.DTO.ProdutoDto", b =>
                 {
-                    b.Property<int>("IdProduct")
+                    b.Property<int>("IdProduto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
-
-                    b.Property<int>("IdProduto")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduto"));
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
@@ -39,11 +54,24 @@ namespace projectFinal.Migrations
                     b.Property<int?>("VendaIdVenda")
                         .HasColumnType("int");
 
-                    b.HasKey("IdProduct");
+                    b.HasKey("IdProduto");
 
                     b.HasIndex("VendaIdVenda");
 
                     b.ToTable("ProdutoDto");
+                });
+
+            modelBuilder.Entity("projectFinal.DTO.VendaDto", b =>
+                {
+                    b.Property<int>("IdVendedor")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVendedor"));
+
+                    b.HasKey("IdVendedor");
+
+                    b.ToTable("VendaDto");
                 });
 
             modelBuilder.Entity("projectFinal.Entities.Produto", b =>
@@ -115,16 +143,31 @@ namespace projectFinal.Migrations
                     b.ToTable("Vendedors");
                 });
 
+            modelBuilder.Entity("ProdutoDtoVendaDto", b =>
+                {
+                    b.HasOne("projectFinal.DTO.ProdutoDto", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutoDtoIdProduto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("projectFinal.DTO.VendaDto", null)
+                        .WithMany()
+                        .HasForeignKey("VendaDtosIdVendedor")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("projectFinal.DTO.ProdutoDto", b =>
                 {
                     b.HasOne("projectFinal.Entities.Venda", null)
-                        .WithMany("ProdutosDto")
+                        .WithMany("ProdutoDtos")
                         .HasForeignKey("VendaIdVenda");
                 });
 
             modelBuilder.Entity("projectFinal.Entities.Venda", b =>
                 {
-                    b.Navigation("ProdutosDto");
+                    b.Navigation("ProdutoDtos");
                 });
 #pragma warning restore 612, 618
         }

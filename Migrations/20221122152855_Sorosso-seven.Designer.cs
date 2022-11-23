@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221122152855_Sorosso-seven")]
+    partial class Sorossoseven
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,28 +25,19 @@ namespace projectFinal.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("projectFinal.DTO.ProdutoDto", b =>
+            modelBuilder.Entity("ProdutoVenda", b =>
                 {
-                    b.Property<int>("IdProduct")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("ProdutosIdProduto")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
-
-                    b.Property<int>("IdProduto")
+                    b.Property<int>("VendasIdVenda")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantidade")
-                        .HasColumnType("int");
+                    b.HasKey("ProdutosIdProduto", "VendasIdVenda");
 
-                    b.Property<int?>("VendaIdVenda")
-                        .HasColumnType("int");
+                    b.HasIndex("VendasIdVenda");
 
-                    b.HasKey("IdProduct");
-
-                    b.HasIndex("VendaIdVenda");
-
-                    b.ToTable("ProdutoDto");
+                    b.ToTable("ProdutoVenda");
                 });
 
             modelBuilder.Entity("projectFinal.Entities.Produto", b =>
@@ -115,16 +109,19 @@ namespace projectFinal.Migrations
                     b.ToTable("Vendedors");
                 });
 
-            modelBuilder.Entity("projectFinal.DTO.ProdutoDto", b =>
+            modelBuilder.Entity("ProdutoVenda", b =>
                 {
-                    b.HasOne("projectFinal.Entities.Venda", null)
-                        .WithMany("ProdutosDto")
-                        .HasForeignKey("VendaIdVenda");
-                });
+                    b.HasOne("projectFinal.Entities.Produto", null)
+                        .WithMany()
+                        .HasForeignKey("ProdutosIdProduto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-            modelBuilder.Entity("projectFinal.Entities.Venda", b =>
-                {
-                    b.Navigation("ProdutosDto");
+                    b.HasOne("projectFinal.Entities.Venda", null)
+                        .WithMany()
+                        .HasForeignKey("VendasIdVenda")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

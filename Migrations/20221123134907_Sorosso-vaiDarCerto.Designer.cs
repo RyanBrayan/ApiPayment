@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221123134907_Sorosso-vaiDarCerto")]
+    partial class SorossovaiDarCerto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,14 +27,11 @@ namespace projectFinal.Migrations
 
             modelBuilder.Entity("projectFinal.DTO.ProdutoDto", b =>
                 {
-                    b.Property<int>("IdProduct")
+                    b.Property<int>("IdProduto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduct"));
-
-                    b.Property<int>("IdProduto")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduto"));
 
                     b.Property<int>("Quantidade")
                         .HasColumnType("int");
@@ -39,7 +39,7 @@ namespace projectFinal.Migrations
                     b.Property<int?>("VendaIdVenda")
                         .HasColumnType("int");
 
-                    b.HasKey("IdProduct");
+                    b.HasKey("IdProduto");
 
                     b.HasIndex("VendaIdVenda");
 
