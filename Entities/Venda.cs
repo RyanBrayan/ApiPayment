@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using projectFinal.DTO;
+using projectFinal.Entities;
 
 namespace projectFinal.Entities
 {
@@ -16,17 +17,19 @@ namespace projectFinal.Entities
         }
 
         [Key]
-        public int IdVenda { get; set; }
+        public int VendaId { get; set; }
         [ForeignKey("Vendedor")]
-        public int? IdVendedor { get; set; }
-        [ForeignKey("Produto")]
-         public string NomeVendedor{ get; set; }
-        public List<ProdutoDto> ProdutosDto { get; set; }
-        public string NomeProduto{ get; set; }
+        public int VendedorId { get; set; }
+        [ForeignKey("VendaId")]
+        public List<VendaProduto> ProdutosDto { get; set; }
+
         [ForeignKey("Status")]
         public Status Status{ get; set; }
         public DateTime DataVenda { get; set; }
-        public void Adicionar(ProdutoDto produto){
+
+
+        public void Adicionar(VendaProduto produto)
+        {
             ProdutosDto.Add(produto);
         }
     }

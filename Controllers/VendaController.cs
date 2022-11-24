@@ -24,22 +24,27 @@ namespace projectFinal.Controllers
         [HttpPost]
         public IActionResult Criar(VendaDto vendaDto){
             
-            // if(vendaDto.IdVendedor == null) throw new ArgumentNullException("Campo IdVendedor não podem ser nulo.");
-            // if(dadosVendedor == null) return NotFound("IdVendedor não encontrado!");
+            var vendedor = _context.Vendedors.Find(vendaDto.IdVendedor);
+
+            if(vendaDto.IdVendedor == null) throw new ArgumentNullException("Campo IdVendedor não podem ser nulo.");
+            if(vendedor == null) return NotFound("Vendedor não encontrado!");
             
-            var dadosVendedor = _context.Vendedors.Find(vendaDto.IdVendedor);
             
             var venda = new Venda();
             
-            venda.IdVendedor = vendaDto.IdVendedor;
-            venda.NomeVendedor = dadosVendedor.Nome;
-            venda.ProdutosDto = new List<ProdutoDto>();
-            foreach (var item in vendaDto.ProdutoDto)
+            venda.VendedorId = vendaDto.IdVendedor;
+            venda.ProdutosDto = new List<VendaProduto>();
+            foreach (var item in vendaDto.VendaProdutos)
             {
-                ProdutoDto produtoDto = new ProdutoDto();
-                produtoDto.IdProduto = item.IdProduto;
-                produtoDto.Quantidade = item.Quantidade;
-                venda.Adicionar(produtoDto);
+                if(item.ProdutoId == null) throw new ArgumentNullException("Campo IdProduto não podem ser nulo.");
+                var produto = _context.Produtos.Find(item.ProdutoId);
+                if(produto == null) return NotFound("Produto não encontrado!");
+
+
+                VendaProduto vendaProduto = new VendaProduto();
+                vendaProduto.ProdutoId = item.ProdutoId;
+                vendaProduto.Quantidade = item.Quantidade;
+                venda.Adicionar(vendaProduto);
             }
 
             _context.Add(venda); 

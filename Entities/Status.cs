@@ -15,7 +15,6 @@ namespace projectFinal.Entities
         Cancelada,
         EnviadoParaTransportadora,
         Entregue
-
     }
 
 }

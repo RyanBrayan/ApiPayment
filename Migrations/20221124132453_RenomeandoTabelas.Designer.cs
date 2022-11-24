@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221124132453_RenomeandoTabelas")]
+    partial class RenomeandoTabelas
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,11 +27,11 @@ namespace projectFinal.Migrations
 
             modelBuilder.Entity("projectFinal.Entities.Produto", b =>
                 {
-                    b.Property<int>("ProdutoId")
+                    b.Property<int>("IdProduto")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProdutoId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdProduto"));
 
                     b.Property<string>("NomeProduto")
                         .HasColumnType("nvarchar(max)");
@@ -36,7 +39,7 @@ namespace projectFinal.Migrations
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("ProdutoId");
+                    b.HasKey("IdProduto");
 
                     b.ToTable("Produtos");
                 });
@@ -71,7 +74,7 @@ namespace projectFinal.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("ProdutoId")
+                    b.Property<int>("IdProduto")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantidade")
@@ -89,11 +92,11 @@ namespace projectFinal.Migrations
 
             modelBuilder.Entity("projectFinal.Entities.Vendedor", b =>
                 {
-                    b.Property<int>("VendedorId")
+                    b.Property<int>("IdVendedor")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VendedorId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdVendedor"));
 
                     b.Property<string>("Cpf")
                         .HasColumnType("nvarchar(max)");
@@ -104,7 +107,7 @@ namespace projectFinal.Migrations
                     b.Property<string>("Telefone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("VendedorId");
+                    b.HasKey("IdVendedor");
 
                     b.ToTable("Vendedors");
                 });
