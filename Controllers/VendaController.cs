@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using projectFinal.Context;
 using projectFinal.DTO;
@@ -33,7 +29,7 @@ namespace projectFinal.Controllers
             var venda = new Venda();
             
             venda.VendedorId = vendaDto.IdVendedor;
-            venda.ProdutosDto = new List<VendaProduto>();
+            venda.VendaProdutos = new List<VendaProduto>();
             foreach (var item in vendaDto.VendaProdutos)
             {
                 if(item.ProdutoId == null) throw new ArgumentNullException("Campo IdProduto não podem ser nulo.");
@@ -59,28 +55,28 @@ namespace projectFinal.Controllers
 
             if(vendaBanco == null) 
                 return NotFound("Venda não encontrada");
-
+            if (vendaBanco.Status == Status.Cancelada){
+                 throw new Exception($"A venda está cancelada, portanto não pode avançar");
+            }
             if (vendaBanco.Status == Status.AguardandoPagamento){
+                if(status != Status.PagamentoAprovado && status != Status.Cancelada) throw new Exception("Você não pode pular etapas!");
+ 
                 if(status == Status.PagamentoAprovado){
                     vendaBanco.Status = status;
                 }else if(status == Status.Cancelada) vendaBanco.Status = status;
                 else return NotFound("Deu ruim meno, corre e tiro");
-            }
+            }else if (vendaBanco.Status ==  Status.PagamentoAprovado){
+                if(status != Status.EnviadoParaTransportadora && status != Status.Cancelada) throw new Exception("Você não pode pular etapas!");
 
-            if (vendaBanco.Status ==  Status.PagamentoAprovado){
                 if(status == Status.EnviadoParaTransportadora){
                     vendaBanco.Status = status;
                 }else if(status == Status.Cancelada) vendaBanco.Status = status;
                 else return NotFound("Deu ruim meno, corre e tiro");
-            }
-
-            if (vendaBanco.Status == Status.EnviadoParaTransportadora){
+            } else if (vendaBanco.Status == Status.EnviadoParaTransportadora){
                 vendaBanco.Status = Status.Entregue;
             }
 
-            if (vendaBanco.Status == Status.Cancelada){
-                 throw new Exception($"A venda está cancelada, portanto não pode avançar");;
-            }
+            
 
             // vendaBanco.Status = status;
 
@@ -89,7 +85,6 @@ namespace projectFinal.Controllers
 
             return Ok(vendaBanco);
         }
-
 
         [HttpGet("Buscar_Por{id}")]
         public IActionResult BuscarPorID(int id){

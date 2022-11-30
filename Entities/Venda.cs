@@ -21,7 +21,7 @@ namespace projectFinal.Entities
         [ForeignKey("Vendedor")]
         public int VendedorId { get; set; }
         [ForeignKey("VendaId")]
-        public List<VendaProduto> ProdutosDto { get; set; }
+        public List<VendaProduto> VendaProdutos { get; set; }
 
         [ForeignKey("Status")]
         public Status Status{ get; set; }
@@ -30,7 +30,7 @@ namespace projectFinal.Entities
 
         public void Adicionar(VendaProduto produto)
         {
-            ProdutosDto.Add(produto);
+            VendaProdutos.Add(produto);
         }
     }
 

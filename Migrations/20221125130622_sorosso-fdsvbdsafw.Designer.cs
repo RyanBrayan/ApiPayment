@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221125130622_sorosso-fdsvbdsafw")]
+    partial class sorossofdsvbdsafw
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -82,8 +85,6 @@ namespace projectFinal.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProdutoId");
-
                     b.HasIndex("VendaId");
 
                     b.ToTable("VendaProduto");
@@ -113,20 +114,9 @@ namespace projectFinal.Migrations
 
             modelBuilder.Entity("projectFinal.Entities.VendaProduto", b =>
                 {
-                    b.HasOne("projectFinal.Entities.Produto", null)
-                        .WithMany("VendaProdutos")
-                        .HasForeignKey("ProdutoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("projectFinal.Entities.Venda", null)
                         .WithMany("VendaProdutos")
                         .HasForeignKey("VendaId");
-                });
-
-            modelBuilder.Entity("projectFinal.Entities.Produto", b =>
-                {
-                    b.Navigation("VendaProdutos");
                 });
 
             modelBuilder.Entity("projectFinal.Entities.Venda", b =>

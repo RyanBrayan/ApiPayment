@@ -12,6 +12,9 @@ namespace projectFinal.Entities
     {
         [Key]
         public int ProdutoId { get; set; }
+
+        [ForeignKey("ProdutoId")]
+        public ICollection<VendaProduto> VendaProdutos { get; set; }
         public string NomeProduto { get; set; }
         public decimal Preco{ get; set; }
 

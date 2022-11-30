@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using projectFinal.Context;
+using projectFinal.DTO;
 using projectFinal.Entities;
 namespace projectFinal.Controllers
 
@@ -19,7 +20,10 @@ namespace projectFinal.Controllers
         }
 
         [HttpPost]
-        public IActionResult Criar(Produto produto){
+        public IActionResult Criar(ProdutoDto produtoDto){
+            var produto = new Produto();
+            produto.NomeProduto = produtoDto.NomeProduto;
+            produto.Preco = produtoDto.Preco;
             _context.Add(produto);
             _context.SaveChanges();
             return Ok(produto);
