@@ -18,6 +18,7 @@ namespace projectFinal.Context
         public DbSet<Vendedor> Vendedors{get;set;}
         public DbSet<Venda> Vendas{get;set;}
         public DbSet<Produto> Produtos {get;set;}
+        public DbSet<VendaProduto> VendaProdutos {get;set;}
         
     }
 }

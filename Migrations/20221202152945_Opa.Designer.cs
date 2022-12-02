@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using projectFinal.Context;
 
@@ -11,9 +12,11 @@ using projectFinal.Context;
 namespace projectFinal.Migrations
 {
     [DbContext(typeof(EccomerceContext))]
-    partial class EccomerceContextModelSnapshot : ModelSnapshot
+    [Migration("20221202152945_Opa")]
+    partial class Opa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,7 +89,7 @@ namespace projectFinal.Migrations
 
                     b.HasIndex("VendaId");
 
-                    b.ToTable("VendaProdutos");
+                    b.ToTable("VendaProduto");
                 });
 
             modelBuilder.Entity("projectFinal.Entities.Vendedor", b =>

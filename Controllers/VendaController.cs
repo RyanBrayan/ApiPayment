@@ -27,7 +27,7 @@ namespace projectFinal.Controllers
             
             
             var venda = new Venda();
-            
+
             venda.VendedorId = vendaDto.IdVendedor;
             venda.VendaProdutos = new List<VendaProduto>();
             foreach (var item in vendaDto.VendaProdutos)
@@ -41,10 +41,12 @@ namespace projectFinal.Controllers
                 vendaProduto.ProdutoId = item.ProdutoId;
                 vendaProduto.Quantidade = item.Quantidade;
                 venda.Adicionar(vendaProduto);
+                
             }
 
             _context.Add(venda); 
             _context.SaveChanges();
+            
             return Ok(venda);
         }
 
@@ -99,11 +101,20 @@ namespace projectFinal.Controllers
 
         [HttpGet("ListarVendas")]
         public IActionResult ListarVenda(){
-            var vendas = _context.Vendas;
+            var vendas = _context.Vendas.ToList();
             return Ok(vendas);
 
         }
-
+        [HttpGet("ListarVendasComVendedorEProduto")]
+        public IActionResult ListarVendaComVendedorEProduto()
+        {
+            var vend = (from Vp in _context.VendaProdutos
+                        join vd in _context.Vendas on Vp.VendaId equals vd.VendaId
+                        join Pr in _context.Produtos on Vp.ProdutoId equals Pr.ProdutoId
+                        join v in _context.Vendedors on vd.VendedorId equals v.VendedorId
+                        select new { Vp.Id, Pr.NomeProduto , Pr.Preco, v.Nome, Vp.VendaId});
+            return Ok(vend);
+        }
 
         class Excecao : Exception
         {

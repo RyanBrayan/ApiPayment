@@ -15,6 +15,9 @@ namespace projectFinal.Entities
             this.Status = Status.AguardandoPagamento;
             this.DataVenda = DateTime.Now;
         }
+        public Venda(Vendedor vendedorId){
+
+        }
 
         [Key]
         public int VendaId { get; set; }
