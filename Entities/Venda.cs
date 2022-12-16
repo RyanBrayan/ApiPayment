@@ -26,6 +26,8 @@ namespace projectFinal.Entities
         [ForeignKey("VendaId")]
         public List<VendaProduto> VendaProdutos { get; set; }
 
+        public decimal ValorTotal { get; set; }
+
         [ForeignKey("Status")]
         public Status Status{ get; set; }
         public DateTime DataVenda { get; set; }

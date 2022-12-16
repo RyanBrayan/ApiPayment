@@ -27,7 +27,7 @@ namespace projectFinal.Controllers
             
             
             var venda = new Venda();
-
+            decimal valorTotal = 0;
             venda.VendedorId = vendaDto.IdVendedor;
             venda.VendaProdutos = new List<VendaProduto>();
             foreach (var item in vendaDto.VendaProdutos)
@@ -40,10 +40,11 @@ namespace projectFinal.Controllers
                 VendaProduto vendaProduto = new VendaProduto();
                 vendaProduto.ProdutoId = item.ProdutoId;
                 vendaProduto.Quantidade = item.Quantidade;
+                valorTotal = produto.Preco * item.Quantidade;
                 venda.Adicionar(vendaProduto);
                 
             }
-
+            venda.ValorTotal = valorTotal;
             _context.Add(venda); 
             _context.SaveChanges();
             
@@ -105,6 +106,9 @@ namespace projectFinal.Controllers
             return Ok(vendas);
 
         }
+
+
+
         [HttpGet("ListarVendasComVendedorEProduto")]
         public IActionResult ListarVendaComVendedorEProduto()
         {
@@ -112,7 +116,7 @@ namespace projectFinal.Controllers
                         join vd in _context.Vendas on Vp.VendaId equals vd.VendaId
                         join Pr in _context.Produtos on Vp.ProdutoId equals Pr.ProdutoId
                         join v in _context.Vendedors on vd.VendedorId equals v.VendedorId
-                        select new { Vp.Id, Pr.NomeProduto , Pr.Preco, v.Nome, Vp.VendaId});
+                        select new { Vp.Id, Pr.NomeProduto , Pr.Preco, v.NomeVendedor, Vp.VendaId});
             return Ok(vend);
         }
 

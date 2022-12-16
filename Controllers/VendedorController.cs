@@ -31,7 +31,7 @@ namespace projectFinal.Controllers
                 return NotFound();
 
             vendedorBanco.Cpf = vendedor.Cpf;
-            vendedorBanco.Nome = vendedor.Nome;
+            vendedorBanco.NomeVendedor = vendedor.NomeVendedor;
             vendedorBanco.Telefone = vendedor.Telefone;
 
             _context.Vendedors.Update(vendedorBanco);
@@ -47,7 +47,26 @@ namespace projectFinal.Controllers
             return Ok(vendedors);
         }
 
+        [HttpGet("ListarQuantidadeVendasDoVendedor{id}")]
+        public IActionResult ListarQuantidadeVendasDoVendedor(int id)
+        {
+            var quantidadeVendas = (from vp in _context.VendaProdutos
+                                    join vd in _context.Vendas
+                                    on vp.VendaId equals vd.VendaId 
+                                    join ve in _context.Vendedors 
+                                    on vd.VendedorId equals ve.VendedorId 
+                                    select new {ve.NomeVendedor, vd.VendedorId});
+            int totVendas = 0;
+            string nome = "";
+            foreach (var item in quantidadeVendas)
+            {
+                if(item.VendedorId == id){
+                    nome = item.NomeVendedor;
+                    totVendas += 1;
+                }
+            }
+            return Ok("O vendedor/a: "+nome +" Tem " + totVendas + " Vendas");
 
-
+        }
     }
 }

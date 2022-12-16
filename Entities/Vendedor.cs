@@ -11,7 +11,7 @@ namespace projectFinal.Entities
         [Key]
         public int VendedorId { get; set; }
         public string Cpf{ get; set; }
-        public string Nome { get; set; }
+        public string NomeVendedor { get; set; }
         public string Telefone{get; set;}
         
     }

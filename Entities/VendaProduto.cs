@@ -10,7 +10,7 @@ namespace projectFinal.Entities
         [Key]
         public int Id { get; set; }
         public int VendaId { get; set; }
-        public Venda venda { get; set; }
+        // public Venda venda { get; set; }
 
         [ForeignKey("ProdutoId")]
         public int ProdutoId { get; set; }
